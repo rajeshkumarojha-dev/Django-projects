@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="image-uploader">
+        <h1 class='heading'>Welcome</h1>
+        <form action="" method='POST' enctype='multipart/form-data'>
+            {% csrf_token %}
+            {% for row in form  %}
+                <p class='label'>{{row.label_tag}}</p>
+                {{row}}
+                <p>{{row.errors|striptags}}</p>
+            {% endfor %}
+            <button type='submit'>Submit</button>
+        </form>
+        <h6 class='page'>GO TO <a href={% url 'view' %}>Image PAGE</a></h6>
+    </div>
+</body>
+</html>

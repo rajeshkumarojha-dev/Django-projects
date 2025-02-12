@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/list.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1 class='nav'><a href={% url 'home' %}>HOME</a></h1>
+    <div class="Image-view">
+        {% if messages %}
+            {% for message in messages %}
+            <h6 {% if message.tags %}{% endif %}>{{message}}</h6>
+            {% endfor %}
+        {% endif %}
+        <h1 class='image-heading'>Image</h1>
+        <div class="image-content">
+            <div class="image-row">
+                {% for row in qs %}
+                <div class="images">
+                    <img src={{row.image.url}} alt="">
+                    <h4>{{row.name}}</h4>
+                    <p>{{row.email}}</p>
+                    <div class="btn">
+                        <p class='bt'><a href={% url 'update' row.id  %} class='EDIT'>EDIT</a></p>
+                        <p class='bt'><a href={% url 'delete' row.id  %} class='EDIT'>DELETE</a></p>
+                    </div>
+                </div>
+                {% endfor %} 
+            </div>
+               
+        </div>
+        
+    </div>
+</body>
+</html>
