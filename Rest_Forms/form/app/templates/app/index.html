@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <section class='navbar'>
+        <nav>
+            <a href="/">Home</a>
+            <a href="/list">List</a>
+            <a href="/add">Add Employee</a>
+        </nav>
+        <div class="auth">
+            <a href="#">LogIn</a>
+            <a href="#">SignIn</a>
+        </div>
+    </section>
+
+    <section class='home'>
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message.tags %}{% endif %}>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+        {% block content %}
+        <h1>Welcome to Home page</h1>
+        {% endblock  %}
+    </section>
+</body>
+</html>

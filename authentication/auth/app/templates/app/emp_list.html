@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    {% for emp in employees  %}
+        {{emp.name}} - {{emp.email}} - {{emp.phone}} - {{emp.department}} - {{emp.salery}} - <a href="{% url 'update_emp' emp.id %}">update</a> - <a href="{% url 'delete_emp' emp.id %}">Delete</a>
+    {% endfor %}
+</body>
+</html>

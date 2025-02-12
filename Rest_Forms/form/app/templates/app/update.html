@@ -1,0 +1,22 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+
+{% if messages %}
+    {% for message in messages %}
+        <p {% if message.tags %}{% endif %}>{{message}}</p>
+    {% endfor %}
+{% endif %}
+
+<form action="" method='POST'>
+    {% csrf_token %}
+    {% for row in form %}
+        {{row.label_tag}}
+        <p>{{row}}</p>
+        <p>{{row.errors | striptags}}</p>
+    {% endfor %}
+
+    <button type='submit'>Submit</button>
+</form>
+
+{% endblock  %}
