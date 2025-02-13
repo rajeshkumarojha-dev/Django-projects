@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
     <title>Document</title>
 </head>
 <body>
@@ -13,19 +14,27 @@
             <a href="/add">Add Employee</a>
         </nav>
         <div class="auth">
-            <a href="#">LogIn</a>
-            <a href="#">SignIn</a>
+            {%if user.is_authenticated %}
+                <a href="{% url 'logout' %}">Logout</a>
+                <p>welcome {{request.user.username}}</p>
+
+            {% else %}
+                <a href="{% url 'login' %}">LogIn</a>
+                <a href="{% url 'signin' %}">SignIn</a>
+            {%endif%}
         </div>
     </section>
 
     <section class='home'>
+
         {% if messages %}
             {% for message in messages %}
-                <p {% if message.tags %}{% endif %}>{{message}}</p>
+                <p class='popup' {% if message.tags %}{% endif %}>{{message}}</p>
             {% endfor %}
         {% endif %}
         {% block content %}
-        <h1>Welcome to Home page</h1>
+        <h1>Welcome {{request.user.username}} to Home page</h1>
+
         {% endblock  %}
     </section>
 </body>

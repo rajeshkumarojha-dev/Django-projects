@@ -1,7 +1,8 @@
 {% extends "app/index.html" %}
 
 {% block content %}
-
+<div class="table">
+    <h1>Employee Details</h1>
     <table border=1>
         <thead>
             <tr>
@@ -24,10 +25,11 @@
                     <td>{{employee.department}}</td>
                     <td>{{employee.phone}}</td>
                     <td>{{employee.salery}}</td>
-                    <td><a href="{% url 'update' employee.id %}">update</a></td>
-                    <td><a href="{% url 'delete' employee.id %}">Delete</a></td>
+                    <td><a class='record' href="{% url 'update' employee.id %}">update</a></td>
+                    <td><a class='record' href="{% url 'delete' employee.id %}">Delete</a></td>
                 </tr>
             {% endfor %}
         </tbody>
     </table>
+</div>
 {% endblock  %}

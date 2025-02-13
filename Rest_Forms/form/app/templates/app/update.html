@@ -4,11 +4,12 @@
 
 {% if messages %}
     {% for message in messages %}
-        <p {% if message.tags %}{% endif %}>{{message}}</p>
+        <p class='popup' {% if message.tags %}{% endif %}>{{message}}</p>
     {% endfor %}
 {% endif %}
 
 <form action="" method='POST'>
+    <h1>Employee Update Form</h1>
     {% csrf_token %}
     {% for row in form %}
         {{row.label_tag}}

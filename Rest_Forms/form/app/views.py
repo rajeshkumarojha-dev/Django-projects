@@ -3,43 +3,38 @@ from .models import Employee
 from .serializers import EmployeeSerializer
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from .form import EmployeeForm
+from .form import EmployeeForm,signinForm,loginForm
 from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
+from django.contrib.auth.decorators import login_required
+
 # Create your views here.
 
 def home(request):
     return render(request,'app/index.html')
 
+@login_required
 def emp_list(request):
-    emp=Employee.objects.all()
-    return render(request,'app/list.html',context={'emp':emp})
+    emp = Employee.objects.filter(user=request.user)  # Filter by logged-in user
+    return render(request, 'app/list.html', context={'emp': emp})
 
-
+@login_required
 def emp_form(request):
-    if request.method=='POST':
-        form=EmployeeForm(request.POST)
+    if request.method == 'POST':
+        form = EmployeeForm(request.POST)
         if form.is_valid():
-            data={
-                'name': form.cleaned_data['name'],
-                'email': form.cleaned_data['email'],
-                'position': form.cleaned_data['position'],
-                'department': form.cleaned_data['department'],
-                'phone': form.cleaned_data['phone'],
-                'salery': form.cleaned_data['salery']
-            }
-
-            serializer=EmployeeSerializer(data=data)
-            if serializer.is_valid():
-                serializer.save()
-                messages.success(request, 'Employee added Successfully')
-                return redirect('list')
+            employee = form.save(commit=False)
+            employee.user = request.user  # Set the current logged-in user
+            employee.save()
+            messages.success(request, 'Employee added Successfully')
+            return redirect('list')
     else:
-        form=EmployeeForm()
-        return render(request,'app/add_emp.html',context={'form':form})
-    
+        form = EmployeeForm()
+    return render(request, 'app/add_emp.html', context={'form': form})
 
+@login_required
 def update_emp(request,id):
-    emp=Employee.objects.get(pk=id)
+    emp = Employee.objects.get(pk=id, user=request.user)  # Ensure the employee belongs to the logged-in user
     if request.method=='POST':
         form=EmployeeForm(request.POST,instance=emp)
         if form.is_valid():
@@ -49,9 +44,9 @@ def update_emp(request,id):
     form=EmployeeForm(instance=emp)
     return render(request,'app/update.html',context={'form':form})
 
-
+@login_required
 def delete_emp(request,id):
-    emp=Employee.objects.get(id=id)
+    emp = Employee.objects.get(pk=id, user=request.user)  # Ensure the employee belongs to the logged-in user
     emp.delete()
     messages.success(request, 'Employee deleted Successfully')
     return redirect('list')
@@ -94,7 +89,41 @@ def employee_api(request,id=None):
         
     
 
-    
 
-        
-    
+
+
+
+
+def signin_request(request):
+    if request.method=='POST':
+        form=signinForm(request.POST)
+        if form.is_valid():
+            user=form.save()
+            login(request,user)
+            messages.success(request, 'User created Successfully')
+            return redirect('home')
+        else:
+            messages.error(request, 'Invalid Data')
+    form=signinForm()
+    return render(request,'registration/signin.html',context={'form':form})
+
+def login_request(request):
+    if request.method=='POST':
+        form=loginForm(request=request,data=request.POST)
+        if form.is_valid():
+            username=form.cleaned_data['username']
+            password=form.cleaned_data['password']
+            user=authenticate(username=username,password=password)  
+            if user is not None:
+                login(request, user)
+                messages.success(request, 'Login Successfully')
+                return redirect('home')
+    form=loginForm()
+    return render(request,'registration/login.html',context={'form':form})
+
+def logout_request(request):
+    logout(request)
+    return redirect('login')
+
+
+
