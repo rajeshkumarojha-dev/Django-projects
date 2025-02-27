@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/style.css">
+    <title>Todo App</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <a href="/">Todo</a>
+            </div>
+            <p class='menubar'>|||</p>
+            <div class="menu">
+            <p class='close-menu'>X</p>
+                <div class="link">
+                    <a href="/">Home</a>
+                    <a href="/todo">Todo</a>
+                    <a href="/list">List</a>
+                </div>
+                <div class="register">
+                    {% if user.is_authenticated %}
+                        <a href="{% url "logout" %}">LogOut</a>
+                    {% else  %}
+                        <a href="{% url "login" %}">LogIn</a>
+                        <a href="{% url "signin" %}">Sign Up</a>
+                    {% endif %}
+                </div>
+            </div>
+            
+        </nav>
+    </header>
+    <section>
+        {% if messages %}
+            {% for message in messages %}
+                <p {% if message.tags %}{% endif %} class='popup'>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+        {% block content %}
+            <div class="welcome">
+                <h1>hi, {{request.user.username}}</h1>
+                <h4>Welcome to todo app</h4>
+            </div>
+        {% endblock  %}
+    </section>
+
+    <script src="/static/js/script.js"></script>
+</body>
+</html>

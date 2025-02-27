@@ -1,0 +1,15 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+    <div class="todo">
+        <div class="update">
+            <h1>Update Todos</h1>
+            <form action="" method='POST'>
+                {% csrf_token %}
+                {{form}}
+                <button type='submut'>update TODO</button>
+            </form>
+            <a href="{% url "list" %}" class='back'>Back</a>
+        </div>
+    </div>
+{% endblock  %}

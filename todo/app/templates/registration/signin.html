@@ -1,0 +1,26 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+
+
+{% if form.non_field_errors %}
+    {% for error in form.non_field_errors  %}
+        <p>{{error}}</p>
+    {% endfor %}
+{% endif %}
+
+    <div class="registerForm">
+        <h1>Sign In</h1>
+        <form action="" method='POST'>
+            {% csrf_token %}
+            {% for row in form %}
+                {{row.label_tag}}
+                {{row}}
+                <p>{{row.errors|striptags}}</p>
+            {% endfor %}
+            <button type='submit'>Register</button>
+        </form>
+    </div>
+
+
+{% endblock  %}

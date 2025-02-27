@@ -1,0 +1,24 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+<div class="list">
+    <h1>Todos List</h1>
+    <table border=1>
+        <thead>
+            <tr>
+                <th>todo</th>
+                <th>update</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for data in todo %}
+                <tr>
+                    <td>{{data.todo}}</td>
+                    <td><a href="{% url "update" data.id %}">Update</a></td>
+                </tr>
+            {% endfor %}
+            
+        </tbody>
+    </table>
+</div>
+{% endblock  %}

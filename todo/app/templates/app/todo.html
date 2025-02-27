@@ -1,0 +1,22 @@
+{% extends "app/index.html" %}
+
+{% block content %}
+    <div class="todo">
+        <div class="todoInput">
+            <form action="" method='POST'>
+                {% csrf_token %}
+                {{form}}
+                <button type='submut'>ADD TODO</button>
+            </form>
+        </div>
+        <div class="todo-content">
+            {% for data in todo %}
+            <div class="data">
+                <h6>{{data.todo}}</h6>
+                <a href="{% url "delete" data.id %}">Delete</a>
+                {% comment %} <a href="{% url "update" data.id %}">update</a> {% endcomment %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock  %}
